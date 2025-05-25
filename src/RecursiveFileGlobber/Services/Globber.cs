@@ -77,7 +77,7 @@ namespace RecursiveFileGlobber.Services
             }
 
             foreach (var fullDir in Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly))
-            {
+            { // Recursively get subdirectories
                 if (fullDir.Length <= _options.PrefixLength)
                 { continue; } // Skip if the directory is the root path itself
 
@@ -120,7 +120,7 @@ namespace RecursiveFileGlobber.Services
 
                 relative.Add(fullDir.Substring(_options.PrefixLength));
 
-                var sub = await GetDirectoriesAsync(fullDir, depth + 1);
+                var sub = await GetDirectoriesAsync(fullDir, depth + 1); // Recursively get subdirectories
                 relative.AddRange(sub);
             }
 
@@ -165,11 +165,11 @@ namespace RecursiveFileGlobber.Services
             });
 
             foreach (var dir in subdirs)
-            {
+            { // Recursively get subdirectories
                 if (dir.Length <= _options.PrefixLength)
                 { continue; } // Skip if the directory is the root path itself
 
-                var subfiles = await GetFilesAsync(dir, depth + 1);
+                var subfiles = await GetFilesAsync(dir, depth + 1); // Recursively get subfiles
                 relative.AddRange(subfiles);
             }
 
@@ -202,7 +202,7 @@ namespace RecursiveFileGlobber.Services
         /// <remarks>When this method is called, all subsequent glob patterns will be matched  without
         /// regard to case sensitivity. This is useful for file systems or  environments where case sensitivity is not
         /// enforced.</remarks>
-        /// <returns>The current <see cref="Globber"/> instance with case-insensitive matching enabled.</returns>
+        /// <returns>The current <see cref="Globber"/> instance, allowing for method chaining.</returns>
         public Globber CaseInsensitive()
         {
             _options.IgnoreCase = true;
@@ -356,6 +356,14 @@ namespace RecursiveFileGlobber.Services
             return filteredFiles;
         }
 
+        /// <summary>
+        /// Asynchronously enumerates all directories in the root path, applying any configured filters.
+        /// </summary>
+        /// <remarks>This method retrieves all directories starting from the root path specified in the
+        /// options and applies any path filtering patterns defined in the configuration. The returned collection
+        /// contains only the directories that match the applied filters.</remarks>
+        /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of
+        /// directory paths that match the applied filters.</returns>
         public async Task<IEnumerable<string>> EnumerateDirectoriesAsync()
         {
             /// Get all directories in the root path
@@ -367,6 +375,15 @@ namespace RecursiveFileGlobber.Services
             return filteredDirectories;
         }
 
+        /// <summary>
+        /// Asynchronously retrieves a collection of file paths from the root directory,  applying any configured
+        /// filters to the results.
+        /// </summary>
+        /// <remarks>This method starts at the root directory specified in the options and retrieves  all
+        /// files, applying any path pattern filters defined in the configuration.  The returned collection contains
+        /// only the files that match the specified filters.</remarks>
+        /// <returns>A task that represents the asynchronous operation. The task result contains  an <see cref="IEnumerable{T}"/>
+        /// of strings, where each string is the path of a file  that matches the configured filters.</returns>
         public async Task<IEnumerable<string>> EnumerateFilesAsync()
         {
             /// Get all files in the root path
