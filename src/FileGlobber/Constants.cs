@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace RecursiveFileGlobber
+namespace FileGlobber
 {
     internal static class Constants
     {

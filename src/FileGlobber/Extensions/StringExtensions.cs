@@ -1,6 +1,7 @@
-﻿using System.Text.RegularExpressions;
+﻿using FileGlobber;
+using System.Text.RegularExpressions;
 
-namespace RecursiveFileGlobber.Extensions
+namespace FileGlobber.Extensions
 {
     public static class StringExtensions
     {

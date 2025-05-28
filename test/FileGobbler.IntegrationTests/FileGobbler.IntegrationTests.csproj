@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\RecursiveFileGlobber\RecursiveFileGlobber.csproj" />
+    <ProjectReference Include="..\..\src\RecursiveFileGlobber\FileGlobber.csproj" />
   </ItemGroup>
 
   <ItemGroup>

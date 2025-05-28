@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace RecursiveFileGlobber.Models
+namespace FileGlobber.Models
 {
     public class GlobOptions
     {

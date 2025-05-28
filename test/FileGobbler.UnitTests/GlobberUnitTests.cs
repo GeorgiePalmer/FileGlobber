@@ -2,7 +2,7 @@
 using RecursiveFileGlobber.Services;
 using System.Reflection;
 
-namespace RecursiveFileGobbler.UnitTests
+namespace FileGobbler.UnitTests
 {
     public class GlobberUnitTests
     {

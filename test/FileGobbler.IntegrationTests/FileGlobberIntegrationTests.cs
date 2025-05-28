@@ -2,7 +2,7 @@ using RecursiveFileGlobber.Models;
 using RecursiveFileGlobber.Services;
 using System.Reflection;
 
-namespace RecursiveFileGobbler.IntegrationTests
+namespace FileGobbler.IntegrationTests
 {
     public class FileGlobberIntegrationTests
     {

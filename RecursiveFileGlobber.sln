@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36109.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{D6A2AB40-F889-4360-8019-A0229317700D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileGobbler.UnitTests", "test\FileGobbler.UnitTests\FileGobbler.UnitTests.csproj", "{C7869B40-6189-642C-6871-C6E3D4B1A9E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileGobbler.IntegrationTests", "test\FileGobbler.IntegrationTests\FileGobbler.IntegrationTests.csproj", "{AB5909E7-94C3-7120-6F8C-5DE39D70BB95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileGlobber", "src\FileGlobber\FileGlobber.csproj", "{64E93237-A003-CF80-6A9F-D0FA9754F11A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileGobbler.TestUtilities", "test\FileGobbler.TestUtilities\FileGobbler.TestUtilities.csproj", "{0CFC7200-673A-48F3-9304-DBACBA721CE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7869B40-6189-642C-6871-C6E3D4B1A9E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7869B40-6189-642C-6871-C6E3D4B1A9E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7869B40-6189-642C-6871-C6E3D4B1A9E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7869B40-6189-642C-6871-C6E3D4B1A9E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB5909E7-94C3-7120-6F8C-5DE39D70BB95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5909E7-94C3-7120-6F8C-5DE39D70BB95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5909E7-94C3-7120-6F8C-5DE39D70BB95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5909E7-94C3-7120-6F8C-5DE39D70BB95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{64E93237-A003-CF80-6A9F-D0FA9754F11A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64E93237-A003-CF80-6A9F-D0FA9754F11A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64E93237-A003-CF80-6A9F-D0FA9754F11A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64E93237-A003-CF80-6A9F-D0FA9754F11A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CFC7200-673A-48F3-9304-DBACBA721CE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CFC7200-673A-48F3-9304-DBACBA721CE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CFC7200-673A-48F3-9304-DBACBA721CE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CFC7200-673A-48F3-9304-DBACBA721CE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C7869B40-6189-642C-6871-C6E3D4B1A9E6} = {D6A2AB40-F889-4360-8019-A0229317700D}
+		{AB5909E7-94C3-7120-6F8C-5DE39D70BB95} = {D6A2AB40-F889-4360-8019-A0229317700D}
+		{64E93237-A003-CF80-6A9F-D0FA9754F11A} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0CFC7200-673A-48F3-9304-DBACBA721CE6} = {D6A2AB40-F889-4360-8019-A0229317700D}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E6B4AEC6-665E-479A-909A-912E7EAA5FC4}
+	EndGlobalSection
+EndGlobal

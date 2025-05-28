@@ -1,6 +1,6 @@
 ﻿using RecursiveFileGlobber.Services;
 
-namespace RecursiveFileGobbler.UnitTests
+namespace FileGobbler.UnitTests
 {
     public class GlobUnitTests
     {

@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace RecursiveFileGlobber.Services
+namespace FileGlobber.Services
 {
     public static class Glob
     {

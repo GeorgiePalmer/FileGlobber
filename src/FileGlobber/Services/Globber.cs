@@ -1,12 +1,12 @@
-﻿using RecursiveFileGlobber.Extensions;
-using RecursiveFileGlobber.Models;
+﻿using FileGlobber.Extensions;
+using FileGlobber.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecursiveFileGlobber.Services
+namespace FileGlobber.Services
 {
     public class Globber
     {
