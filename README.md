@@ -1,120 +1,155 @@
+# Glob Pattern File Enumeration Utility
 
-# RecursiveFileGlob
+A lightweight C# utility for recursive file and directory enumeration using flexible glob and regex patterns. It lets you combine inclusion and exclusion rules, control recursion depth, handle hidden files, and choose between synchronous and asynchronous APIs.
 
-A C# library for recursive file globbing and filtering with Unix-style patterns and streaming support—designed to feel just like the built-in `Directory.EnumerateDirectories()` and `EnumerateFiles()` methods.
+---
 
-## Features
-- `**` recursive glob patterns (e.g., `**/*.cs`).
-- Support for multiple include and exclude patterns.
-- **Synchronous** lazy enumeration via `EnumerateFiles()` and `EnumerateDirectories()`.
-- **Asynchronous** streaming via `IAsyncEnumerable<string>` for high-throughput scenarios.
-- Optional settings (max recursion depth, case sensitivity, hidden items).
-- Transparent Windows long-path support (`\\?\\` prefix) and reserved-name handling.
+## Table of Contents
+
+- [Installation](#installation)
+- [Overview](#overview)
+- [GlobOptions Model](#globoptions-model)
+- [Basic Usage](#basic-usage)
+- [API Usage](#api-usage)
+- [Examples](#examples)
+- [License](#license)
+
+---
 
 ## Installation
 
-```shell
-dotnet add package RecursiveFileGlob --version 1.0.0
-```
+TODO: NuGet package or source code instructions.
 
-## Usage
+---
 
-### Synchronous Enumeration
+## Overview
+
+- **`GlobOptions`**: Holds configuration for root path, include/exclude patterns, recursion depth, and flags.
+- **`Glob.Create(...)`**: Static factory to validate a root path and obtain a `Globber`.
+- **`Globber`**: Service that performs enumeration:
+  - Recursion up to `MaxDepth`
+  - Includes/excludes via regex-converted patterns
+  - Options for case sensitivity and hidden files
+  - Synchronous and asynchronous enumeration
+
+---
+
+## GlobOptions Model
+
+| Property           | Type                | Default     | Description                                                                                 |
+|--------------------|---------------------|-------------|---------------------------------------------------------------------------------------------|
+| `RootPath`         | `string`            | `""`      | Fully qualified base directory for enumeration                                              |
+| `MatchPatterns`    | `IList<string>`     | `[]`        | Glob/regex patterns to include (converted to regex internally)                              |
+| `ExcludePatterns`  | `IList<string>`     | `[]`        | Glob/regex patterns to exclude                                                              |
+| `MaxDepth`         | `uint`              | `50`        | Maximum recursion depth (0 = current folder only)                                           |
+| `IgnoreCase`       | `bool`              | `false`     | Case-insensitive matching                                                                   |
+| `IncludeHidden`    | `bool`              | `false`     | Whether to include hidden files/directories                                                 |
+| `NormalizedRoot`   | `string` (read-only)| —           | `RootPath` with a trailing directory separator                                              |
+| `PrefixLength`     | `int` (read-only)   | —           | Length of `NormalizedRoot` (used to trim full paths to relative paths)                      |
+
+---
+
+## Basic Usage
+
+Demonstrates how to obtain a `Globber` instance.
+
+### Factory Method
 
 ```csharp
+using YourNamespace.Utilities;
+
+var root = @"C:\Projects\MyApp";
+var globber = Glob.Create(root);
+```
+
+### Manual Instantiation
+
+```csharp
+using YourNamespace.Utilities;
+using System.Collections.Generic;
+
 var options = new GlobOptions
 {
-    RootPath = @"C:\Projects",
-    Patterns = new[] { "**/*.cs", "**/*.js" },
-    ExcludePatterns = new[] { "**/bin/**", "**/obj/**" },
-    MaxDepth = 5,
-    CaseSensitive = false,
-    IncludeHidden = false
+    RootPath = @"C:\Projects\MyApp",
+    MatchPatterns = new List<string> { @".*\\.cs$" },
+    ExcludePatterns = new List<string> { @".*\\.g\\.cs$" },
+    MaxDepth = 3,
+    IgnoreCase = true,
+    IncludeHidden = true
 };
-
 var globber = new Globber(options);
-
-// Files
-foreach (var file in globber.EnumerateFiles())
-{
-    Console.WriteLine(file);
-}
-
-// Directories
-foreach (var dir in globber.EnumerateDirectories())
-{
-    Console.WriteLine(dir);
-}
 ```
 
-### Asynchronous Enumeration
+---
+
+## API Usage
+
+Configure behavior and perform enumeration.
+
+### Configuration
+
+Chain methods to set match/exclude rules, depth, and flags.
 
 ```csharp
-await foreach (var file in globber.EnumerateFilesAsync())
-{
-    Console.WriteLine(file);
-}
+globber
+    .CaseInsensitive()      // ignore case
+    .IncludeHidden()        // include hidden files
+    .Match(@".*\\.cs$")  // include .cs files
+    .Exclude(@".*\\.g\\.cs$") // exclude generated
+    .MaxDepth(5);           // set max depth
 ```
 
-### Fluent API
+### Enumeration
+
+#### Directories
 
 ```csharp
-// Chain options and enumerate
-await foreach (var file in Glob.Create(@"C:\Projects")
-    .Include("**/*.md")
-    .Exclude("**/temp/**")
-    .WithMaxDepth(3)
-    .WithCaseSensitivity(true)
+var dirs = globber.EnumerateDirectories();
+// or
+var customDirs = globber.EnumerateDirectories(@"D:\Data");
+```
+
+#### Files
+
+```csharp
+var files = globber.EnumerateFiles();
+// or
+var customFiles = globber.EnumerateFiles(@"D:\Logs");
+```
+
+#### Asynchronous
+
+```csharp
+var asyncDirs  = await globber.EnumerateDirectoriesAsync();
+var asyncFiles = await globber.EnumerateFilesAsync();
+```
+
+---
+
+## Examples
+
+```csharp
+// 1) Find all .log files, exclude archives
+var logs = Glob.Create("C:\Logs")
+    .Match(@".*\\.log$")
+    .Exclude(@"archive/.*")
+    .EnumerateFiles();
+
+// 2) Enumerate test folders up to 2 levels deep
+var tests = Glob.Create("C:\Projects")
+    .CaseInsensitive()
+    .Match(@"src/.+/tests$")
+    .MaxDepth(2)
+    .EnumerateDirectories();
+
+// 3) Async scan of /data
+var dataFiles = await Glob.Create("/data")
     .IncludeHidden()
-    .EnumerateFilesAsync())
-{
-    Console.WriteLine(file);
-}
+    .EnumerateFilesAsync();
 ```
 
-## API Reference
+---
 
-### `class GlobOptions`
-- `string RootPath` — Base directory to start the search.
-- `string[] Patterns` — Include patterns.
-- `string[] ExcludePatterns` — Exclude patterns.
-- `int? MaxDepth` — Maximum recursion depth.
-- `bool CaseSensitive` — Toggle case sensitivity.
-- `bool IncludeHidden` — Include hidden files and directories.
-- `EnvironmentOptions EnvOptions` — OS-specific behavior (e.g. long-path, name validation).
+## License
 
-### `class EnvironmentOptions`
-- `int MaxPathLength` — Maximum allowed path length on the current OS.
-- `Func<string, bool> IsValidName` — Custom delegate to validate file or directory names.
-
-### `class Globber`
-- `Globber(GlobOptions options)` — Initialize with options.
-- `IEnumerable<string> EnumerateFiles()` — Sync, lazy file enumeration.
-- `IEnumerable<string> EnumerateDirectories()` — Sync, lazy directory enumeration.
-- `IAsyncEnumerable<string> EnumerateFilesAsync()` — Async file enumeration.
-- `IAsyncEnumerable<string> EnumerateDirectoriesAsync()` — Async directory enumeration.
-
-### `static class Glob`
-- `Glob Create(string rootPath)` — Start a fluent query.
-- `Glob Include(params string[] patterns)` — Add include patterns.
-- `Glob Exclude(params string[] patterns)` — Add exclude patterns.
-- `Glob WithMaxDepth(int depth)` — Limit recursion depth.
-- `Glob WithCaseSensitivity(bool caseSensitive)` — Set sensitivity.
-- `Glob IncludeHidden()` — Include hidden items.
-- `IEnumerable<string> EnumerateFiles()` / `EnumerateDirectories()` — Sync enumeration.
-- `IAsyncEnumerable<string> EnumerateFilesAsync()` / `EnumerateDirectoriesAsync()` — Async enumeration.
-
-## Project Structure
-
-```
-/src
-/RecursiveFileGlob
-Globber.cs
-GlobOptions.cs
-EnvironmentOptions.cs
-Glob.cs
-/RecursiveFileGlob.Tests
-GlobberTests.cs
-RecursiveFileGlob.sln
-RecursiveFileGlob.nuspec
-```
+TODO: Add license information here.

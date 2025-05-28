@@ -1,4 +1,4 @@
-﻿using RecursiveFileGlobber.Models;
+﻿using FileGlobber.Models;
 using System;
 using System.IO;
 

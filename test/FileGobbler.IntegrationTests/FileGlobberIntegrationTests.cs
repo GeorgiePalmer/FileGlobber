@@ -1,5 +1,5 @@
-using RecursiveFileGlobber.Models;
-using RecursiveFileGlobber.Services;
+using FileGlobber.Models;
+using FileGlobber.Services;
 using System.Reflection;
 
 namespace FileGobbler.IntegrationTests
