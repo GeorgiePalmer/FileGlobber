@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace FileGobbler.UnitTests
 {
-    public class GlobberUnitTests
+    public class GlobberTests
     {
         [Fact]
         public void EnumerateDirectories_BasicExecution_ReturnsEnumerable_WithValidMatching()
