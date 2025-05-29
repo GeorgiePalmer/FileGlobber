@@ -112,19 +112,19 @@ namespace FileGlobber.Services
                 return Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly).ToList();
             });
 
-            List<string> relative = [];
+            List<string> directories = [];
             foreach (var fullDir in entries)
             {
                 if (fullDir.Length <= _options.PrefixLength)
                 { continue; } // Skip if the directory is the root path itself
 
-                relative.Add(fullDir.Substring(_options.PrefixLength));
+                directories.Add(fullDir.Substring(_options.PrefixLength));
 
                 var sub = await GetDirectoriesAsync(fullDir, depth + 1); // Recursively get subdirectories
-                relative.AddRange(sub);
+                directories.AddRange(sub);
             }
 
-            return relative;
+            return directories;
         }
 
         /// <summary>
@@ -150,13 +150,13 @@ namespace FileGlobber.Services
                 return Directory.EnumerateFiles(path, "*", SearchOption.TopDirectoryOnly).ToList();
             });
 
-            var relative = new List<string>();
+            var directories = new List<string>();
             foreach (var fullFile in files)
             {
                 if (fullFile.Length <= _options.PrefixLength)
                 { continue; } // Skip if the file is the root path itself
 
-                relative.Add(fullFile.Substring(_options.PrefixLength));
+                directories.Add(fullFile.Substring(_options.PrefixLength));
             }
 
             var subdirs = await Task.Run(() =>
@@ -170,10 +170,10 @@ namespace FileGlobber.Services
                 { continue; } // Skip if the directory is the root path itself
 
                 var subfiles = await GetFilesAsync(dir, depth + 1); // Recursively get subfiles
-                relative.AddRange(subfiles);
+                directories.AddRange(subfiles);
             }
 
-            return relative;
+            return directories;
         }
 
         /// <summary>
@@ -186,14 +186,44 @@ namespace FileGlobber.Services
         /// patterns and do not match any of the specified exclude patterns.</returns>
         private IEnumerable<string> FilterPathPatterns(List<string> paths)
         {
+            /// Prevalidate patterns
+            ValidatePatterns();
+
             /// Collect the match and exclude rules
-            var matchRules = _options.MatchPatterns.Select(mPat => mPat.ToRegex(_options.IgnoreCase)).ToArray();
-            var excludeRules = _options.ExcludePatterns.Select(ePat => ePat.ToRegex(_options.IgnoreCase)).ToArray();
+            var matchRules = _options.MatchPatterns
+                .Select(mPat => mPat.ToRegex(_options.IgnoreCase))
+                .ToArray();
+            var excludeRules = _options.ExcludePatterns
+                .Select(ePat => ePat.ToRegex(_options.IgnoreCase))
+                .ToArray();
 
             /// Apply the rules
             return paths.Where(file =>
                 matchRules.Any(mRule => mRule.IsMatch(file)) &&
                 !excludeRules.Any(eRule => eRule.IsMatch(file)));
+        }
+
+        private void ValidatePatterns()
+        {
+            /// VALID | No required patterns
+            if (_options.MatchPatterns.Count == 0)
+            { throw new ArgumentException("No match patterns have been specified."); }
+
+            /// TRIM | Duplicates
+            _options.MatchPatterns = _options.MatchPatterns.Distinct().ToList();
+            _options.ExcludePatterns = _options.ExcludePatterns.Distinct().ToList();
+
+            /// VALID | Complete overlap
+            if (_options.MatchPatterns.Intersect(_options.ExcludePatterns).Count() == _options.MatchPatterns.Count)
+            { throw new ArgumentException("Match and exclude patterns cannot completely overlap."); }
+
+            /// TRIM | Cancel-out overlap
+            var intersect = _options.MatchPatterns.Intersect(_options.ExcludePatterns);
+            if (intersect.Any())
+            {
+                _options.MatchPatterns = _options.MatchPatterns.Except(intersect).ToList();
+                _options.ExcludePatterns = _options.ExcludePatterns.Except(intersect).ToList();
+            }
         }
 
         /// <summary>

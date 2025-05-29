@@ -1,5 +1,4 @@
-﻿using FileGlobber;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace FileGlobber.Extensions
 {
@@ -12,8 +11,8 @@ namespace FileGlobber.Extensions
 
             /// Handle **/ or /**  → “match any directory segments”
             escaped = escaped
-                .Replace(@"\*\*/", @$"({Constants.AnyDirPattern})?")
-                .Replace(@"/\*\*", @$"({Constants.DirSepPattern}.+)?");
+                .Replace(@"\*\*/", $"({Constants.AnyDirPattern})?")
+                .Replace(@"/\*\*", $"({Constants.DirSepPattern}.+)?");
 
             /// Replace single * and ?
             escaped = escaped
