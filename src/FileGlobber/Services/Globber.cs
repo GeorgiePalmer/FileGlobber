@@ -186,7 +186,6 @@ namespace FileGlobber.Services
         /// patterns and do not match any of the specified exclude patterns.</returns>
         private IEnumerable<string> FilterPathPatterns(List<string> paths)
         {
-            /// Prevalidate patterns
             ValidatePatterns();
 
             /// Collect the match and exclude rules
