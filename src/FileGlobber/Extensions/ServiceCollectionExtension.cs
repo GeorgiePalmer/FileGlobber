@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace RecursiveFileGlobber.Extensions
+namespace FileGlobber.Extensions
 {
     public static class ServiceCollectionExtension
     {

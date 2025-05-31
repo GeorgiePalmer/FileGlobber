@@ -1,12 +1,12 @@
-﻿using RecursiveFileGlobber.Extensions;
-using RecursiveFileGlobber.Models;
+﻿using FileGlobber.Extensions;
+using FileGlobber.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RecursiveFileGlobber.Services
+namespace FileGlobber.Services
 {
     public class Globber
     {
@@ -77,7 +77,7 @@ namespace RecursiveFileGlobber.Services
             }
 
             foreach (var fullDir in Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly))
-            {
+            { // Recursively get subdirectories
                 if (fullDir.Length <= _options.PrefixLength)
                 { continue; } // Skip if the directory is the root path itself
 
@@ -112,19 +112,19 @@ namespace RecursiveFileGlobber.Services
                 return Directory.EnumerateDirectories(path, "*", SearchOption.TopDirectoryOnly).ToList();
             });
 
-            List<string> relative = [];
+            List<string> directories = [];
             foreach (var fullDir in entries)
             {
                 if (fullDir.Length <= _options.PrefixLength)
                 { continue; } // Skip if the directory is the root path itself
 
-                relative.Add(fullDir.Substring(_options.PrefixLength));
+                directories.Add(fullDir.Substring(_options.PrefixLength));
 
-                var sub = await GetDirectoriesAsync(fullDir, depth + 1);
-                relative.AddRange(sub);
+                var sub = await GetDirectoriesAsync(fullDir, depth + 1); // Recursively get subdirectories
+                directories.AddRange(sub);
             }
 
-            return relative;
+            return directories;
         }
 
         /// <summary>
@@ -150,13 +150,13 @@ namespace RecursiveFileGlobber.Services
                 return Directory.EnumerateFiles(path, "*", SearchOption.TopDirectoryOnly).ToList();
             });
 
-            var relative = new List<string>();
+            var directories = new List<string>();
             foreach (var fullFile in files)
             {
                 if (fullFile.Length <= _options.PrefixLength)
                 { continue; } // Skip if the file is the root path itself
 
-                relative.Add(fullFile.Substring(_options.PrefixLength));
+                directories.Add(fullFile.Substring(_options.PrefixLength));
             }
 
             var subdirs = await Task.Run(() =>
@@ -165,15 +165,15 @@ namespace RecursiveFileGlobber.Services
             });
 
             foreach (var dir in subdirs)
-            {
+            { // Recursively get subdirectories
                 if (dir.Length <= _options.PrefixLength)
                 { continue; } // Skip if the directory is the root path itself
 
-                var subfiles = await GetFilesAsync(dir, depth + 1);
-                relative.AddRange(subfiles);
+                var subfiles = await GetFilesAsync(dir, depth + 1); // Recursively get subfiles
+                directories.AddRange(subfiles);
             }
 
-            return relative;
+            return directories;
         }
 
         /// <summary>
@@ -186,14 +186,34 @@ namespace RecursiveFileGlobber.Services
         /// patterns and do not match any of the specified exclude patterns.</returns>
         private IEnumerable<string> FilterPathPatterns(List<string> paths)
         {
+            /// Pre-validate
+            _options.ValidatePatterns();
+            var isWindowsPath = DetectIsWindowsPath(paths);
+
             /// Collect the match and exclude rules
-            var matchRules = _options.MatchPatterns.Select(mPat => mPat.ToRegex(_options.IgnoreCase)).ToArray();
-            var excludeRules = _options.ExcludePatterns.Select(ePat => ePat.ToRegex(_options.IgnoreCase)).ToArray();
+            var matchRules = _options.MatchPatterns
+                .Select(mPat => mPat.ToPatternRegex(isWindowsPath, _options.IgnoreCase))
+                .ToArray();
+            var excludeRules = _options.ExcludePatterns
+                .Select(ePat => ePat.ToPatternRegex(isWindowsPath, _options.IgnoreCase))
+                .ToArray();
 
             /// Apply the rules
             return paths.Where(file =>
                 matchRules.Any(mRule => mRule.IsMatch(file)) &&
                 !excludeRules.Any(eRule => eRule.IsMatch(file)));
+        }
+
+        private bool DetectIsWindowsPath(List<string> paths)
+        {
+            /// Detect if paths provided are Windows or Unix dir-separated
+            int score = 0;
+            foreach (var path in paths)
+            { // Count the number of backslashes and forward slashes in the paths
+                score += path.Count(c => c == '\\');
+                score -= path.Count(c => c == '/');
+            }
+            return (score > 0);
         }
 
         /// <summary>
@@ -202,7 +222,7 @@ namespace RecursiveFileGlobber.Services
         /// <remarks>When this method is called, all subsequent glob patterns will be matched  without
         /// regard to case sensitivity. This is useful for file systems or  environments where case sensitivity is not
         /// enforced.</remarks>
-        /// <returns>The current <see cref="Globber"/> instance with case-insensitive matching enabled.</returns>
+        /// <returns>The current <see cref="Globber"/> instance, allowing for method chaining.</returns>
         public Globber CaseInsensitive()
         {
             _options.IgnoreCase = true;
@@ -356,6 +376,14 @@ namespace RecursiveFileGlobber.Services
             return filteredFiles;
         }
 
+        /// <summary>
+        /// Asynchronously enumerates all directories in the root path, applying any configured filters.
+        /// </summary>
+        /// <remarks>This method retrieves all directories starting from the root path specified in the
+        /// options and applies any path filtering patterns defined in the configuration. The returned collection
+        /// contains only the directories that match the applied filters.</remarks>
+        /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of
+        /// directory paths that match the applied filters.</returns>
         public async Task<IEnumerable<string>> EnumerateDirectoriesAsync()
         {
             /// Get all directories in the root path
@@ -367,6 +395,15 @@ namespace RecursiveFileGlobber.Services
             return filteredDirectories;
         }
 
+        /// <summary>
+        /// Asynchronously retrieves a collection of file paths from the root directory,  applying any configured
+        /// filters to the results.
+        /// </summary>
+        /// <remarks>This method starts at the root directory specified in the options and retrieves  all
+        /// files, applying any path pattern filters defined in the configuration.  The returned collection contains
+        /// only the files that match the specified filters.</remarks>
+        /// <returns>A task that represents the asynchronous operation. The task result contains  an <see cref="IEnumerable{T}"/>
+        /// of strings, where each string is the path of a file  that matches the configured filters.</returns>
         public async Task<IEnumerable<string>> EnumerateFilesAsync()
         {
             /// Get all files in the root path
