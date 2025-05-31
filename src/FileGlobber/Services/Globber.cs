@@ -186,14 +186,16 @@ namespace FileGlobber.Services
         /// patterns and do not match any of the specified exclude patterns.</returns>
         private IEnumerable<string> FilterPathPatterns(List<string> paths)
         {
-            ValidatePatterns();
+            /// Pre-validate
+            _options.ValidatePatterns();
+            var isWindowsPath = DetectIsWindowsPath(paths);
 
             /// Collect the match and exclude rules
             var matchRules = _options.MatchPatterns
-                .Select(mPat => mPat.ToRegex(_options.IgnoreCase))
+                .Select(mPat => mPat.ToPatternRegex(isWindowsPath, _options.IgnoreCase))
                 .ToArray();
             var excludeRules = _options.ExcludePatterns
-                .Select(ePat => ePat.ToRegex(_options.IgnoreCase))
+                .Select(ePat => ePat.ToPatternRegex(isWindowsPath, _options.IgnoreCase))
                 .ToArray();
 
             /// Apply the rules
@@ -202,27 +204,16 @@ namespace FileGlobber.Services
                 !excludeRules.Any(eRule => eRule.IsMatch(file)));
         }
 
-        private void ValidatePatterns()
+        private bool DetectIsWindowsPath(List<string> paths)
         {
-            /// VALID | No required patterns
-            if (_options.MatchPatterns.Count == 0)
-            { throw new ArgumentException("No match patterns have been specified."); }
-
-            /// TRIM | Duplicates
-            _options.MatchPatterns = _options.MatchPatterns.Distinct().ToList();
-            _options.ExcludePatterns = _options.ExcludePatterns.Distinct().ToList();
-
-            /// VALID | Complete overlap
-            if (_options.MatchPatterns.Intersect(_options.ExcludePatterns).Count() == _options.MatchPatterns.Count)
-            { throw new ArgumentException("Match and exclude patterns cannot completely overlap."); }
-
-            /// TRIM | Cancel-out overlap
-            var intersect = _options.MatchPatterns.Intersect(_options.ExcludePatterns);
-            if (intersect.Any())
-            {
-                _options.MatchPatterns = _options.MatchPatterns.Except(intersect).ToList();
-                _options.ExcludePatterns = _options.ExcludePatterns.Except(intersect).ToList();
+            /// Detect if paths provided are Windows or Unix dir-separated
+            int score = 0;
+            foreach (var path in paths)
+            { // Count the number of backslashes and forward slashes in the paths
+                score += path.Count(c => c == '\\');
+                score -= path.Count(c => c == '/');
             }
+            return (score > 0);
         }
 
         /// <summary>

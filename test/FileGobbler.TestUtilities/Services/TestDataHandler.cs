@@ -23,8 +23,8 @@ namespace FileGobbler.TestUtilities.Services
         private static readonly Dictionary<TestDataKind, string> _extractDirs = new();
 
         private static readonly string TEST_ROOT_DIR = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
-        private static readonly string TEST_LINUX_ARCHIVE_PATH = Path.Combine(TEST_ROOT_DIR, "test-data", "Linux", "LinuxTestArchive.zip");
-        private static readonly string TEST_WINDOWS_ARCHIVE_PATH = Path.Combine(TEST_ROOT_DIR, "test-data", "Windows", "WindowsTestArchive.zip");
+        private static readonly string TEST_LINUX_ARCHIVE_PATH = Path.Combine(TEST_ROOT_DIR, typeof(TestDataHandler).Assembly.GetName().Name!, "test-data", "Linux", "LinuxTestArchive.zip");
+        private static readonly string TEST_WINDOWS_ARCHIVE_PATH = Path.Combine(TEST_ROOT_DIR, typeof(TestDataHandler).Assembly.GetName().Name!, "test-data", "Windows", "WindowsTestArchive.zip");
         private const string TEST_DATA_EXTRACT_PREFIX = "Handled_Test_Data";
         private readonly TestDataKind _kind;
         public TestDataExpected Data { get; }
@@ -43,9 +43,9 @@ namespace FileGobbler.TestUtilities.Services
 
                     var extractPrefix = $"{TEST_DATA_EXTRACT_PREFIX}_{kind}";
 
-                    ZipExtractHelper.ExtractToTempDirectory(zipPath, extractPrefix);
+                    var extractDir = ZipExtractHelper.ExtractToTempDirectory(zipPath, extractPrefix);
 
-                    _extractDirs[kind] = extractPrefix;
+                    _extractDirs[kind] = extractDir;
                     _refCounts[kind] = 1;
                 }
                 else
