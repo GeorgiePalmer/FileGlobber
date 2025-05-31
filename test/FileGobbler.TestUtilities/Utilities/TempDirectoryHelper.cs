@@ -10,7 +10,7 @@ namespace FileGobbler.TestUtilities.Utilities
 
             var projectName = prefix
                 ?? Assembly.GetEntryAssembly()?.GetName().Name
-                ?? "TempTestDir";
+                ?? TestUtilitiesConstants.DEFAULT_TEMP_DIR_PREFIX;
 
             var dirName = $"{projectName}_{Guid.NewGuid()}";
 

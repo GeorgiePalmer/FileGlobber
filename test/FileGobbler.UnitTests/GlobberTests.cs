@@ -1,19 +1,27 @@
 ﻿using FileGlobber.Models;
 using FileGlobber.Services;
-using System.Reflection;
+using FileGobbler.TestUtilities.Services;
 
 namespace FileGobbler.UnitTests
 {
     public class GlobberTests
     {
+        private TestDataHandler _windowsTDHandler;
+        private TestDataHandler _linuxTDHandler;
+
+        public GlobberTests()
+        {
+            _windowsTDHandler = new TestDataHandler(TestDataHandler.TestDataKind.Windows);
+            _linuxTDHandler = new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+        }
+
         [Fact]
         public void EnumerateDirectories_BasicExecution_ReturnsEnumerable_WithValidMatching()
         {
             // Prepare
-            var testRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var testOptions = new GlobOptions()
             {
-                RootPath = testRootPath,
+                RootPath = _windowsTDHandler.Data.RootPath,
                 MatchPatterns = ["*"],
                 ExcludePatterns = [],
                 MaxDepth = 50,
@@ -28,7 +36,13 @@ namespace FileGobbler.UnitTests
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(result.Count(), Directory.EnumerateDirectories(testRootPath).Count());
+            Assert.Equal(Directory.EnumerateDirectories(_windowsTDHandler.Data.RootPath, "*", SearchOption.AllDirectories).Count(), result.Count());
+        }
+
+        ~GlobberTests()
+        {
+            _windowsTDHandler.Dispose();
+            _linuxTDHandler.Dispose();
         }
     }
 }

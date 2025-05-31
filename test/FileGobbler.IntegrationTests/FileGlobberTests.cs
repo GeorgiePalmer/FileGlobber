@@ -4,7 +4,7 @@ using FileGobbler.TestUtilities.Services;
 
 namespace FileGobbler.IntegrationTests
 {
-    public class FileGlobberIntegrationTests
+    public class FileGlobberTests
     {
         private const int TOTAL_DIR_COUNT = 0;
         private const int TOTAL_FILE_COUNT = 0;
@@ -12,7 +12,7 @@ namespace FileGobbler.IntegrationTests
         private TestDataHandler _windowsTDHandler;
         private TestDataHandler _linuxTDHandler;
 
-        public FileGlobberIntegrationTests()
+        public FileGlobberTests()
         {
             _windowsTDHandler = new TestDataHandler(TestDataHandler.TestDataKind.Windows);
             _linuxTDHandler = new TestDataHandler(TestDataHandler.TestDataKind.Linux);
@@ -42,7 +42,7 @@ namespace FileGobbler.IntegrationTests
             Assert.Equal(TOTAL_DIR_COUNT, result.Count());
         }
 
-        ~FileGlobberIntegrationTests()
+        ~FileGlobberTests()
         {
             _windowsTDHandler.Dispose();
             _linuxTDHandler.Dispose();
