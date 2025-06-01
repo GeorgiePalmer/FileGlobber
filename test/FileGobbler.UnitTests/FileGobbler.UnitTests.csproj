@@ -20,6 +20,8 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+<<<<<<<< HEAD:test/FileGobbler.TestUtilities/FileGobbler.TestUtilities.csproj
+========
   </ItemGroup>
 
   <ItemGroup>

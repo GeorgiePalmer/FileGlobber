@@ -16,6 +16,7 @@ namespace FileGobbler.UnitTests
             _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
 
             // Prepare
+            var testRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var testOptions = new GlobOptions()
             {
                 RootPath = _windowsTDHandler.Data.RootPath,
