@@ -1,4 +1,4 @@
-# Glob Pattern File Enumeration Utility
+# BETA | Glob Pattern File Enumeration Utility
 
 A lightweight C# utility for recursive file and directory enumeration using flexible glob and regex patterns. It lets you combine inclusion and exclusion rules, control recursion depth, handle hidden files, and choose between synchronous and asynchronous APIs.
 
@@ -44,8 +44,8 @@ TODO: NuGet package or source code instructions.
 | `MaxDepth`         | `uint`              | `50`        | Maximum recursion depth (0 = current folder only)                                           |
 | `IgnoreCase`       | `bool`              | `false`     | Case-insensitive matching                                                                   |
 | `IncludeHidden`    | `bool`              | `false`     | Whether to include hidden files/directories                                                 |
-| `NormalizedRoot`   | `string` (read-only)| —           | `RootPath` with a trailing directory separator                                              |
-| `PrefixLength`     | `int` (read-only)   | —           | Length of `NormalizedRoot` (used to trim full paths to relative paths)                      |
+| `NormalizedRoot`   | `string` (read-only)| â€”           | `RootPath` with a trailing directory separator                                              |
+| `PrefixLength`     | `int` (read-only)   | â€”           | Length of `NormalizedRoot` (used to trim full paths to relative paths)                      |
 
 ---
 
