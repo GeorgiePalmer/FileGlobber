@@ -53,5 +53,68 @@ namespace FileGobbler.UnitTests
             Assert.Equal(expectNormalRoot, options.NormalizedRoot);
             Assert.Equal(expectNormalRoot.Length, options.PrefixLength);
         }
+
+        [Fact]
+        public void ValidatePatterns_TrimDupePatterns_ReturnsVoid_WithSuccessfulValidation()
+        {
+            // Prepare
+            var options = new GlobOptions
+            {
+                MatchPatterns = ["*.txt", "*.txt"],
+                ExcludePatterns = ["*.md", "*.md"]
+            };
+            // Execute
+            options.ValidatePatterns();
+
+            // Validate
+            Assert.Single(options.MatchPatterns);
+            Assert.Single(options.ExcludePatterns);
+        }
+
+        [Fact]
+        public void ValidatePatterns_RemoveOverlapPatterns_ReturnsVoid_WithSuccessfulValidation()
+        {
+            // Prepare
+            var options = new GlobOptions
+            {
+                MatchPatterns = ["*.md", "*.unique"],
+                ExcludePatterns = ["*.md"]
+            };
+            // Execute
+            options.ValidatePatterns();
+
+            // Validate
+            Assert.Single(options.MatchPatterns);
+            Assert.Empty(options.ExcludePatterns);
+        }
+
+        [Fact]
+        public void ValidatePatterns_ThrowsArgumentException_FromNoMatchPatterns()
+        {
+            // Prepare
+            var options = new GlobOptions
+            {
+                ExcludePatterns = ["*.md"]
+            };
+
+            // Execute & Validate
+            var ex = Assert.Throws<ArgumentException>(options.ValidatePatterns);
+            Assert.Contains("No match patterns have been specified.", ex.Message);
+        }
+
+        [Fact]
+        public void ValidatePatterns_ThrowsArgumentException_FromTotalOverlapPatterns()
+        {
+            // Prepare
+            var options = new GlobOptions
+            {
+                MatchPatterns = ["*.md"],
+                ExcludePatterns = ["*.md"]
+            };
+
+            // Execute & Validate
+            var ex = Assert.Throws<ArgumentException>(options.ValidatePatterns);
+            Assert.Contains("Match and exclude patterns cannot completely overlap.", ex.Message);
+        }
     }
 }

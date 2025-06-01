@@ -1,18 +1,16 @@
-﻿using FileGlobber.Models;
+using FileGlobber.Models;
 using FileGlobber.Services;
 using FileGobbler.TestUtilities.Services;
 
-namespace FileGobbler.IntegrationTests.Support
+namespace FileGobbler.IntegrationTests.Usage
 {
-    public class PatternSupportTests
+    public class BasicUsageTests
     {
         private TestDataHandler? _windowsTDHandler;
         private TestDataHandler? _linuxTDHandler;
 
-        #region Match Tests
-
         [Fact]
-        public void Directories_MatchAll_ExcludeNone()
+        public void Run_EnumerateDirectories_Basic_Full()
         {
             _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
             _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
@@ -21,8 +19,7 @@ namespace FileGobbler.IntegrationTests.Support
             var testOptions = new GlobOptions()
             {
                 RootPath = _windowsTDHandler.Data.RootPath,
-                MatchPatterns = ["*"],
-                ExcludePatterns = []
+                MatchPatterns = ["*"]
             };
 
             var globber = new Globber(testOptions);
@@ -35,12 +32,8 @@ namespace FileGobbler.IntegrationTests.Support
             Assert.Equal(_windowsTDHandler.Data.ExpectedDirectories.Length, result.Count());
         }
 
-        #endregion Match Tests
-
-        #region Exclude Tests
-
         [Fact]
-        public void Directories_MatchAny_ExcludeAll()
+        public void Run_EnumerateFiles_Basic_Full()
         {
             _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
             _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
@@ -49,26 +42,21 @@ namespace FileGobbler.IntegrationTests.Support
             var testOptions = new GlobOptions()
             {
                 RootPath = _windowsTDHandler.Data.RootPath,
-                MatchPatterns = ["Any"],
-                ExcludePatterns = ["*"]
+                MatchPatterns = ["*"]
             };
 
             var globber = new Globber(testOptions);
 
             // Execute
-            var result = globber.EnumerateDirectories();
+            var result = globber.EnumerateFiles();
 
             // Validate
             Assert.NotNull(result);
-            Assert.Empty(result);
+            Assert.Equal(_windowsTDHandler.Data.ExpectedFiles.Length, result.Count());
         }
 
-        #endregion Exclude Tests
-
-        #region Mixed Tests
-
         [Fact]
-        public void Directories_MatchAll_ExcludeWithStartCharA()
+        public async Task Run_EnumerateDirectoriesAsync_Basic_Full()
         {
             _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
             _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
@@ -77,23 +65,43 @@ namespace FileGobbler.IntegrationTests.Support
             var testOptions = new GlobOptions()
             {
                 RootPath = _windowsTDHandler.Data.RootPath,
-                MatchPatterns = ["*"],
-                ExcludePatterns = ["a/*"]
+                MatchPatterns = ["*"]
             };
 
             var globber = new Globber(testOptions);
 
             // Execute
-            var result = globber.EnumerateDirectories();
+            var result = await globber.EnumerateDirectoriesAsync();
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(18, result.Count());
+            Assert.Equal(_windowsTDHandler.Data.ExpectedDirectories.Length, result.Count());
         }
 
-        #endregion Mixed Tests
+        [Fact]
+        public async Task Run_EnumerateFilesAsync_Basic_Full()
+        {
+            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
+            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
 
-        ~PatternSupportTests()
+            // Prepare
+            var testOptions = new GlobOptions()
+            {
+                RootPath = _windowsTDHandler.Data.RootPath,
+                MatchPatterns = ["*"]
+            };
+
+            var globber = new Globber(testOptions);
+
+            // Execute
+            var result = await globber.EnumerateFilesAsync();
+
+            // Validate
+            Assert.NotNull(result);
+            Assert.Equal(_windowsTDHandler.Data.ExpectedFiles.Length, result.Count());
+        }
+
+        ~BasicUsageTests()
         {
             _windowsTDHandler?.Dispose();
             _linuxTDHandler?.Dispose();

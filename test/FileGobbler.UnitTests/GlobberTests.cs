@@ -6,18 +6,15 @@ namespace FileGobbler.UnitTests
 {
     public class GlobberTests
     {
-        private TestDataHandler _windowsTDHandler;
-        private TestDataHandler _linuxTDHandler;
-
-        public GlobberTests()
-        {
-            _windowsTDHandler = new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler = new TestDataHandler(TestDataHandler.TestDataKind.Linux);
-        }
+        private TestDataHandler? _windowsTDHandler;
+        private TestDataHandler? _linuxTDHandler;
 
         [Fact]
         public void EnumerateDirectories_BasicExecution_ReturnsEnumerable_WithValidMatching()
         {
+            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
+            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+
             // Prepare
             var testOptions = new GlobOptions()
             {
@@ -41,8 +38,8 @@ namespace FileGobbler.UnitTests
 
         ~GlobberTests()
         {
-            _windowsTDHandler.Dispose();
-            _linuxTDHandler.Dispose();
+            _windowsTDHandler?.Dispose();
+            _linuxTDHandler?.Dispose();
         }
     }
 }
