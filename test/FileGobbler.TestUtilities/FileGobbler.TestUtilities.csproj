@@ -20,13 +20,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-<<<<<<<< HEAD:test/FileGobbler.TestUtilities/FileGobbler.TestUtilities.csproj
-========
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\FileGlobber\FileGlobber.csproj" />
->>>>>>>> master:test/FileGobbler.UnitTests/FileGobbler.UnitTests.csproj
   </ItemGroup>
 
   <ItemGroup>

@@ -6,9 +6,6 @@ namespace FileGobbler.IntegrationTests
 {
     public class FileGlobberIntegrationTests
     {
-        private const int TOTAL_DIR_COUNT = 0;
-        private const int TOTAL_FILE_COUNT = 0;
-
         private TestDataHandler _windowsTDHandler;
         private TestDataHandler _linuxTDHandler;
 
@@ -39,7 +36,7 @@ namespace FileGobbler.IntegrationTests
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(TOTAL_DIR_COUNT, result.Count());
+            Assert.Equal(_windowsTDHandler.Data.ExpectedDirectories.Length, result.Count());
         }
 
         ~FileGlobberIntegrationTests()
