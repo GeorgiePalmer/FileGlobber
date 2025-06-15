@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace FileGlobber.Extensions
+namespace GP.FileGlobber.Extensions
 {
     public static class StringExtensions
     {
@@ -21,7 +21,7 @@ namespace FileGlobber.Extensions
                 string regexFromGlob = GlobToRegex(pattern, isWindowsOS);
 
                 if (!TryMakeRegex(regexFromGlob, ignoreCase, out regex) ||
-                    (regex == null))
+                    regex == null)
                 { throw new ArgumentException("Invalid glob pattern"); }
 
                 return regex;

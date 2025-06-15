@@ -1,8 +1,6 @@
-﻿using FileGlobber.Models;
-using System;
-using System.IO;
+﻿using GP.FileGlobber.Models;
 
-namespace FileGlobber.Services
+namespace GP.FileGlobber.Services
 {
     public static class Glob
     {

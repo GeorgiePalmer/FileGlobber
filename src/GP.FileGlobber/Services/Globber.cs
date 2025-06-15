@@ -1,9 +1,9 @@
-﻿using FileGlobber.Extensions;
-using FileGlobber.Models;
+﻿using GP.FileGlobber.Extensions;
+using GP.FileGlobber.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FileGlobber.Services
+namespace GP.FileGlobber.Services
 {
     public class Globber
     {
@@ -210,7 +210,7 @@ namespace FileGlobber.Services
                 score += path.Count(c => c == '\\');
                 score -= path.Count(c => c == '/');
             }
-            return (score > 0);
+            return score > 0;
         }
 
         /// <summary>

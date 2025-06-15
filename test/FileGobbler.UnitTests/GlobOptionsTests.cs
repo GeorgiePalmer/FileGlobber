@@ -1,4 +1,4 @@
-﻿using FileGlobber.Models;
+﻿using GP.FileGlobber.Models;
 
 namespace FileGobbler.UnitTests
 {

@@ -1,6 +1,6 @@
-﻿using FileGlobber.Services;
-using FileGobbler.TestUtilities.Enums;
+﻿using FileGobbler.TestUtilities.Enums;
 using FileGobbler.TestUtilities.Services;
+using GP.FileGlobber.Services;
 
 namespace FileGobbler.IntegrationTests.Usage
 {

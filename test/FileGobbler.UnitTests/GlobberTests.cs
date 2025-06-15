@@ -1,8 +1,4 @@
-﻿using FileGlobber.Models;
-using FileGlobber.Services;
-using FileGobbler.TestUtilities.Enums;
-using FileGobbler.TestUtilities.Services;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace FileGobbler.UnitTests
 {
@@ -41,7 +37,7 @@ namespace FileGobbler.UnitTests
             // Prepare
             var testOptions = new GlobOptions()
             {
-                RootPath = _windowsTDHandler?.ExpectedData.RootPath,
+                RootPath = _windowsTDHandler?.ExpectedData.RootPath!,
                 MatchPatterns = ["*"],
                 ExcludePatterns = [],
                 MaxDepth = 50,

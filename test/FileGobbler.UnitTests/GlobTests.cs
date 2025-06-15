@@ -1,6 +1,4 @@
-﻿using FileGlobber.Services;
-
-namespace FileGobbler.UnitTests
+﻿namespace FileGobbler.UnitTests
 {
     public class GlobTests
     {
@@ -45,7 +43,7 @@ namespace FileGobbler.UnitTests
             string? testPath = null;
 
             // Execute & Validate
-            Assert.Throws<ArgumentNullException>(() => Glob.Create(testPath));
+            Assert.Throws<ArgumentNullException>(() => Glob.Create(testPath!));
         }
     }
 }

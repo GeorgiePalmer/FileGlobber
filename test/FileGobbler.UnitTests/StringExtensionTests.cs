@@ -1,4 +1,4 @@
-﻿using FileGlobber.Extensions;
+﻿using GP.FileGlobber.Extensions;
 
 namespace FileGobbler.UnitTests
 {
