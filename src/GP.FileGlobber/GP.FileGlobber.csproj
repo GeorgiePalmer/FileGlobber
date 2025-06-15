@@ -13,8 +13,7 @@
 			Recursive file globber for .NET, with support for wildcards and regular expressions, and the ability to exclude, with support for both UNC and Windows paths.
 			For more details, see the README at https://github.com/GeorgiePalmer/FileGlobber.
 		</Description>
-		<Authors>FileGlobber Authors</Authors>
-		<Company>FileGlobber Company</Company>
+		<Authors>Georgie Palmer</Authors>
 		<Version>0.0.0</Version>
 		<PackageProjectUrl>
 			<Url>https://github.com/GeorgiePalmer/FileGlobber</Url>

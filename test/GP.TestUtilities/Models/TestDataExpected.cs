@@ -1,6 +1,6 @@
-﻿using FileGobbler.TestUtilities.Enums;
+﻿using GP.TestUtilities.Enums;
 
-namespace FileGobbler.TestUtilities.Models
+namespace GP.TestUtilities.Models
 {
     public class TestDataExpected
     {

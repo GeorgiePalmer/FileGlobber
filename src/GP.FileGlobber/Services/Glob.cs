@@ -6,9 +6,8 @@ namespace GP.FileGlobber.Services
     {
         public static Globber Create(string rootPath)
         {
-            ArgumentNullException.ThrowIfNull(rootPath);
-            if (rootPath == string.Empty)
-            { throw new ArgumentException("Root path cannot be an empty string.", nameof(rootPath)); }
+            if (string.IsNullOrEmpty(rootPath))
+            { throw new ArgumentException("Root path cannot be null or empty.", nameof(rootPath)); }
             if (!Path.IsPathFullyQualified(rootPath))
             { throw new ArgumentException("Root path must be a fully qualified path.", nameof(rootPath)); }
 

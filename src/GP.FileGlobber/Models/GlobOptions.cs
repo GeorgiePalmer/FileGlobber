@@ -7,14 +7,14 @@ namespace GP.FileGlobber.Models
         public string RootPath { get; set; } = string.Empty;
         public IList<string> MatchPatterns { get; set; } = [];
         public IList<string> ExcludePatterns { get; set; } = [];
-        public uint MaxDepth { get; set; } = 50;
+        public uint MaxDepth { get; set; } = Constants.DEFAULT_MAX_DEPTH;
         public bool IgnoreCase { get; set; } = false;
         public bool IncludeHidden { get; set; } = false;
 
         public string NormalizedRoot => RootPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
         public int PrefixLength => NormalizedRoot.Length;
 
-        public void ValidatePatterns()
+        internal void ValidatePatterns()
         {
             /// VALID | No required patterns
             if (MatchPatterns.Count == 0)

@@ -1,6 +1,4 @@
-﻿using GP.FileGlobber.Models;
-
-namespace FileGobbler.UnitTests
+﻿namespace FileGobbler.UnitTests
 {
     public class GlobOptionsTests
     {

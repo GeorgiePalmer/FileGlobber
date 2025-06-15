@@ -1,4 +1,4 @@
-﻿namespace FileGobbler.TestUtilities
+﻿namespace GP.TestUtilities
 {
     internal class TestUtilitiesConstants
     {

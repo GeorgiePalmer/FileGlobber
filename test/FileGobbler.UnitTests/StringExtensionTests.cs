@@ -1,6 +1,4 @@
-﻿using GP.FileGlobber.Extensions;
-
-namespace FileGobbler.UnitTests
+﻿namespace FileGobbler.UnitTests
 {
     public class StringExtensionTests
     {

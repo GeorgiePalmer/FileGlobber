@@ -1,4 +1,4 @@
-﻿namespace FileGobbler.TestUtilities.Enums
+﻿namespace GP.TestUtilities.Enums
 {
     public enum TestDataKind
     {

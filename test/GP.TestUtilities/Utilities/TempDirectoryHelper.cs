@@ -1,6 +1,7 @@
-﻿using System.Reflection;
+﻿using GP.TestUtilities;
+using System.Reflection;
 
-namespace FileGobbler.TestUtilities.Utilities
+namespace GP.TestUtilities.Utilities
 {
     public static class TempDirectoryHelper
     {

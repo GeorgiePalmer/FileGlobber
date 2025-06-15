@@ -1,6 +1,6 @@
 ﻿using System.IO.Compression;
 
-namespace FileGobbler.TestUtilities.Utilities
+namespace GP.TestUtilities.Utilities
 {
     public static class ZipExtractHelper
     {

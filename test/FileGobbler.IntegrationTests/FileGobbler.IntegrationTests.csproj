@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\GP.FileGlobber\GP.FileGlobber.csproj" />
-    <ProjectReference Include="..\FileGobbler.TestUtilities\FileGobbler.TestUtilities.csproj" />
+    <ProjectReference Include="..\GP.TestUtilities\GP.TestUtilities.csproj" />
   </ItemGroup>
 
 

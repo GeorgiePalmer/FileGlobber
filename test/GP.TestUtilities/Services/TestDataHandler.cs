@@ -1,8 +1,8 @@
-﻿using FileGobbler.TestUtilities.Enums;
-using FileGobbler.TestUtilities.Models;
-using FileGobbler.TestUtilities.Utilities;
+﻿using GP.TestUtilities.Enums;
+using GP.TestUtilities.Models;
+using GP.TestUtilities.Utilities;
 
-namespace FileGobbler.TestUtilities.Services
+namespace GP.TestUtilities.Services
 {
     public class TestDataHandler : IDisposable
     {
@@ -24,7 +24,7 @@ namespace FileGobbler.TestUtilities.Services
             lock (_sync)
             {
                 if (!_refCounts.TryGetValue(kind, out var count) ||
-                    (count == 0))
+                    count == 0)
                 {
                     var zipPath = kind == TestDataKind.LINUX
                         ? TEST_LINUX_ARCHIVE_PATH
