@@ -20,4 +20,3 @@
 - [x] Bug: Fix regex conversion when using UNC paths
 - [x] Util: Standardize namespaces for simplified imports
 - [x] Util: Abstract public options to handle safe-private set and get methods
-- [x] 
