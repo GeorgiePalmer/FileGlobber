@@ -1,9 +1,6 @@
 ﻿using FileGlobber.Extensions;
 using FileGlobber.Models;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FileGlobber.Services
@@ -204,7 +201,7 @@ namespace FileGlobber.Services
                 !excludeRules.Any(eRule => eRule.IsMatch(file)));
         }
 
-        private bool DetectIsWindowsPath(List<string> paths)
+        private static bool DetectIsWindowsPath(List<string> paths)
         {
             /// Detect if paths provided are Windows or Unix dir-separated
             int score = 0;

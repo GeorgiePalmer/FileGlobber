@@ -1,5 +1,6 @@
 using FileGlobber.Models;
 using FileGlobber.Services;
+using FileGobbler.TestUtilities.Enums;
 using FileGobbler.TestUtilities.Services;
 
 namespace FileGobbler.IntegrationTests.Usage
@@ -12,13 +13,13 @@ namespace FileGobbler.IntegrationTests.Usage
         [Fact]
         public void Run_EnumerateDirectories_Basic_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare
             var testOptions = new GlobOptions()
             {
-                RootPath = _windowsTDHandler.Data.RootPath,
+                RootPath = _windowsTDHandler.ExpectedData.RootPath,
                 MatchPatterns = ["*"]
             };
 
@@ -29,19 +30,19 @@ namespace FileGobbler.IntegrationTests.Usage
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedDirectories.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedDirectories.Length, result.Count());
         }
 
         [Fact]
         public void Run_EnumerateFiles_Basic_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare
             var testOptions = new GlobOptions()
             {
-                RootPath = _windowsTDHandler.Data.RootPath,
+                RootPath = _windowsTDHandler.ExpectedData.RootPath,
                 MatchPatterns = ["*"]
             };
 
@@ -52,19 +53,19 @@ namespace FileGobbler.IntegrationTests.Usage
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedFiles.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedFiles.Length, result.Count());
         }
 
         [Fact]
         public async Task Run_EnumerateDirectoriesAsync_Basic_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare
             var testOptions = new GlobOptions()
             {
-                RootPath = _windowsTDHandler.Data.RootPath,
+                RootPath = _windowsTDHandler.ExpectedData.RootPath,
                 MatchPatterns = ["*"]
             };
 
@@ -75,19 +76,19 @@ namespace FileGobbler.IntegrationTests.Usage
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedDirectories.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedDirectories.Length, result.Count());
         }
 
         [Fact]
         public async Task Run_EnumerateFilesAsync_Basic_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare
             var testOptions = new GlobOptions()
             {
-                RootPath = _windowsTDHandler.Data.RootPath,
+                RootPath = _windowsTDHandler.ExpectedData.RootPath,
                 MatchPatterns = ["*"]
             };
 
@@ -98,7 +99,7 @@ namespace FileGobbler.IntegrationTests.Usage
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedFiles.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedFiles.Length, result.Count());
         }
 
         ~BasicUsageTests()

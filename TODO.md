@@ -3,8 +3,9 @@
 ## Priorities
 
 - [ ] HIGH | Test: Add unit tests for Gobbler and Regex conversion
-- [ ] HIGH | PARTIAL DON | Test: Add integration tests for Gobbler and Regex conversion
-- [ ] MED | Perf: Make regex check in Gobbler to be inline, saving on memory and time
+- [ ] HIGH | Test: Add integration tests for Gobbler and Regex conversion
+- [ ] HIGH | Bug: Fix regex filter with N depth exclusion and inclusion
+- [ ] - [ ] MED | Perf: Make regex check in Gobbler to be inline, saving on memory and time
 - [ ] MED | CQBC: Abstract Gobbler to be reusable and extensible
 - [ ] LOW | Util: Add configuration options for Gobbler 
 - [ ] LOW | Util: Add service setup for Gobbler

@@ -36,10 +36,8 @@ namespace FileGobbler.TestUtilities.Utilities
                 if (Directory.Exists(Path))
                 { Directory.Delete(Path, recursive: true); }
             }
-            catch
-            {
-                // swallow any cleanup errors (tests shouldn’t fail on delete)
-            }
+            catch // swallow any cleanup errors (tests shouldn’t fail on delete)
+            { }
         }
     }
 }

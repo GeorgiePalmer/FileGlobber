@@ -1,4 +1,5 @@
 ﻿using FileGlobber.Services;
+using FileGobbler.TestUtilities.Enums;
 using FileGobbler.TestUtilities.Services;
 
 namespace FileGobbler.IntegrationTests.Usage
@@ -11,65 +12,65 @@ namespace FileGobbler.IntegrationTests.Usage
         [Fact]
         public void Run_EnumerateDirectories_Api_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare & Execute
-            var result = Glob.Create(_windowsTDHandler.Data.RootPath)
+            var result = Glob.Create(_windowsTDHandler.ExpectedData.RootPath)
                 .Match("*")
                 .EnumerateDirectories();
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedDirectories.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedDirectories.Length, result.Count());
         }
 
         [Fact]
         public void Run_EnumerateFiles_Api_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare & Execute
-            var result = Glob.Create(_windowsTDHandler.Data.RootPath)
+            var result = Glob.Create(_windowsTDHandler.ExpectedData.RootPath)
                 .Match("*")
                 .EnumerateFiles();
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedFiles.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedFiles.Length, result.Count());
         }
 
         [Fact]
         public async Task Run_EnumerateDirectoriesAsync_Api_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare & Execute
-            var result = await Glob.Create(_windowsTDHandler.Data.RootPath)
+            var result = await Glob.Create(_windowsTDHandler.ExpectedData.RootPath)
                 .Match("*")
                 .EnumerateDirectoriesAsync();
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedDirectories.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedDirectories.Length, result.Count());
         }
 
         [Fact]
         public async Task Run_EnumerateFilesAsync_Api_Full()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare & Execute
-            var result = await Glob.Create(_windowsTDHandler.Data.RootPath)
+            var result = await Glob.Create(_windowsTDHandler.ExpectedData.RootPath)
                 .Match("*")
                 .EnumerateFilesAsync();
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(_windowsTDHandler.Data.ExpectedFiles.Length, result.Count());
+            Assert.Equal(_windowsTDHandler.ExpectedData.ExpectedFiles.Length, result.Count());
         }
 
         ~ApiUsageTests()
