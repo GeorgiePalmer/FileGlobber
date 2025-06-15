@@ -10,7 +10,6 @@ namespace GP.FileGlobber.Models
         public uint MaxDepth { get; set; } = Constants.DEFAULT_MAX_DEPTH;
         public bool IgnoreCase { get; set; } = false;
         public bool IncludeHidden { get; set; } = false;
-
         public string NormalizedRoot => RootPath.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
         public int PrefixLength => NormalizedRoot.Length;
 
