@@ -12,11 +12,12 @@
 ## Backlog
 
 - [ ] Util: Add internal logging, printing to console or utilizing an injected Msft logger
-- [ ] Util: Standardize namespaces for simplified imports
-- [ ] Util: Abstract public options to handle safe-private set and get methods
 
 ## Completed
 
-- [x] HIGH | Test: Add integration tests for Gobbler and Regex conversion
-- [x] HIGH | Bug: Fix relative path at depth 2-n for regex matching
-- [x] HIGH | Bug: Fix regex conversion when using UNC paths
+- [x] Test: Add integration tests for Gobbler and Regex conversion
+- [x] Bug: Fix relative path at depth 2-n for regex matching
+- [x] Bug: Fix regex conversion when using UNC paths
+- [x] Util: Standardize namespaces for simplified imports
+- [x] Util: Abstract public options to handle safe-private set and get methods
+- [x] 
