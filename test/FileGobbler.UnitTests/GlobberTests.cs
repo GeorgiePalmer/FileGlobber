@@ -1,5 +1,6 @@
 ﻿using FileGlobber.Models;
 using FileGlobber.Services;
+using FileGobbler.TestUtilities.Enums;
 using FileGobbler.TestUtilities.Services;
 using System.Reflection;
 
@@ -13,14 +14,14 @@ namespace FileGobbler.UnitTests
         [Fact]
         public void EnumerateDirectories_BasicExecution_ReturnsEnumerable_WithValidMatching()
         {
-            _windowsTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Windows);
-            _linuxTDHandler ??= new TestDataHandler(TestDataHandler.TestDataKind.Linux);
+            _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
+            _linuxTDHandler ??= new TestDataHandler(TestDataKind.LINUX);
 
             // Prepare
             var testRootPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             var testOptions = new GlobOptions()
             {
-                RootPath = _windowsTDHandler.Data.RootPath,
+                RootPath = _windowsTDHandler.ExpectedData.RootPath,
                 MatchPatterns = ["*"],
                 ExcludePatterns = [],
                 MaxDepth = 50,
@@ -35,7 +36,7 @@ namespace FileGobbler.UnitTests
 
             // Validate
             Assert.NotNull(result);
-            Assert.Equal(Directory.EnumerateDirectories(_windowsTDHandler.Data.RootPath, "*", SearchOption.AllDirectories).Count(), result.Count());
+            Assert.Equal(Directory.EnumerateDirectories(_windowsTDHandler.ExpectedData.RootPath, "*", SearchOption.AllDirectories).Count(), result.Count());
         }
 
         ~GlobberTests()

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace FileGlobber.Extensions
 {
     public static class StringExtensions
     {
-        internal static Regex ToPatternRegex(this string pattern, bool isWindowsOS, bool ignoreCase = false)
+        public static Regex ToPatternRegex(this string pattern, bool isWindowsOS, bool ignoreCase = false)
         {
             /// Takes a single string, which can be either:
             ///   • a literal regex (e.g. "([A-Z]{1,2}-[0-9]+_?)+/.*")
