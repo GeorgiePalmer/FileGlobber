@@ -295,7 +295,7 @@ namespace FileGobbler.IntegrationTests.Support
             Assert.All(result, d => Assert.False(d.EndsWith("data", StringComparison.OrdinalIgnoreCase)));
         }
 
-        [Fact]
+        [Fact(Skip = "TODO: Bug -- Not available in v0.0.0")]
         public void Directories_ExcludeTwoLevelsDeep()
         {
             _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);

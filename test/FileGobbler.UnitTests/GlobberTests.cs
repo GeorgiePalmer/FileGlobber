@@ -12,6 +12,52 @@ namespace FileGobbler.UnitTests
         private TestDataHandler? _linuxTDHandler;
 
         [Fact]
+        public void Construct_WithOptions_ThrowsArgumentNullException_FromNullOptions()
+        {
+            // Prepare
+            GlobOptions? testOptions = null;
+
+            // Execute & Validate
+            Assert.Throws<ArgumentNullException>(() => new Globber(testOptions!));
+        }
+
+        [Fact]
+        public void Construct_Default_ReturnsGlobber_WithValidOptions()
+        {
+            // Prepare
+            var testOptions = new GlobOptions();
+
+            // Execute
+            var result = new Globber(testOptions);
+
+            // Validate
+            Assert.NotNull(result);
+            Assert.Equal(testOptions, result.Options);
+        }
+
+        [Fact]
+        public void Construct_WithOptions_ReturnsGlobber_WithValidOptions()
+        {
+            // Prepare
+            var testOptions = new GlobOptions()
+            {
+                RootPath = _windowsTDHandler?.ExpectedData.RootPath,
+                MatchPatterns = ["*"],
+                ExcludePatterns = [],
+                MaxDepth = 50,
+                IgnoreCase = false,
+                IncludeHidden = false,
+            };
+
+            // Execute
+            var result = new Globber(testOptions);
+
+            // Validate
+            Assert.NotNull(result);
+            Assert.Equal(testOptions, result.Options);
+        }
+
+        [Fact]
         public void EnumerateDirectories_BasicExecution_ReturnsEnumerable_WithValidMatching()
         {
             _windowsTDHandler ??= new TestDataHandler(TestDataKind.WINDOWS);
