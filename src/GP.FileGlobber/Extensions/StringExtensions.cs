@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace GP.FileGlobber.Extensions
+namespace GP.FileGlobber
 {
     public static class StringExtensions
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace GP.FileGlobber.Models
+namespace GP.FileGlobber
 {
     public class GlobOptions
     {

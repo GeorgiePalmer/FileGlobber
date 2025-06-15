@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GP.FileGlobber.Services.Interfaces
+namespace GP.FileGlobber
 {
     public interface IGlobber
     {

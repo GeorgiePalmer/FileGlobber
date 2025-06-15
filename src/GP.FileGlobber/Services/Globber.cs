@@ -1,9 +1,7 @@
-﻿using GP.FileGlobber.Models;
-using GP.FileGlobber.Services.Interfaces;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GP.FileGlobber.Services
+namespace GP.FileGlobber
 {
     public class Globber : GlobBase, IGlobber
     {

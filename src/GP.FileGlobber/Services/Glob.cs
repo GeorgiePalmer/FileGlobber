@@ -1,6 +1,4 @@
-﻿using GP.FileGlobber.Models;
-
-namespace GP.FileGlobber.Services
+﻿namespace GP.FileGlobber
 {
     public static class Glob
     {
