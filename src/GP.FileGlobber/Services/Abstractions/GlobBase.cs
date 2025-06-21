@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GP.FileGlobber
+namespace GP.FileGlobber.Services.Abstractions
 {
     public class GlobBase
     {

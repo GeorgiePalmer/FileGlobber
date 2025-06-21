@@ -43,7 +43,7 @@
             string? testPath = null;
 
             // Execute & Validate
-            Assert.Throws<ArgumentNullException>(() => Glob.Create(testPath!));
+            Assert.Throws<ArgumentException>(() => Glob.Create(testPath!));
         }
     }
 }

@@ -13,7 +13,7 @@
             Assert.Equal(string.Empty, options.RootPath);
             Assert.Empty(options.MatchPatterns);
             Assert.Empty(options.ExcludePatterns);
-            Assert.Equal((uint)50, options.MaxDepth);
+            Assert.Equal((uint)99, options.MaxDepth);
             Assert.False(options.IgnoreCase);
             Assert.False(options.IncludeHidden);
             Assert.Equal($"{Path.DirectorySeparatorChar}", options.NormalizedRoot);
